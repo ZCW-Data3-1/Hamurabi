@@ -4,7 +4,7 @@ import random
 
 
 def plague_chance(population):
-    chance = random.randint(1,101)
+    chance = random.randint(1, 101)
     plague_deaths = 0
     if chance <= 15:
         plague_deaths = population / 2
