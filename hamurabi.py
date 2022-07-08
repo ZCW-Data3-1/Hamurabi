@@ -26,10 +26,12 @@ class Hamurabi(object):
               "- 1000 acres of land\n"
               "- Land value is 19 bushels/acre\n")
 
+        #Counter
         peopleCount = 100
         bushels = 2800
         acresOfLand = 1000
         landValue= 19
+
 
         gameOn = True
         while gameOn == True:
