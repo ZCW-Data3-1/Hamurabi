@@ -3,9 +3,9 @@ import random
 # random.random() --> 0.0 to less than 1.0
 
     def plague_chance(population):
-        chance = random.random()
+        chance = random.randint(1,100)
         plague_deaths = 0
-        if chance <= 0.15:
+        if chance <= 15:
             plague_deaths = population / 2
             return plague_deaths
         else:
@@ -33,13 +33,13 @@ import random
 
     def harvest(acres, bushels_used_as_seed):
         acres_planted = bushels_used_as_seed // 2
-        crop_yield = random.randint(0,3)
+        crop_yield = random.randint(1,3)
         return acres_planted * crop_yield
 
 
     def grain_eaten_by_rats(bushels):
-        chance = random.random()
-        if chance < 0.40:
+        chance = random.randint(1,100)
+        if chance < 40:
             percent_eaten = random.randint(10, 30)
             return bushels // (percent_eaten / 100)
         else:
