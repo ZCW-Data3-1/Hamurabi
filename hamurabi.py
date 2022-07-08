@@ -17,6 +17,7 @@ print("Congratulations, you are the newest ruler of ancient Sumer, elected for a
       "Rule wisely and you will be showered with appreciation at the end of your term.\n"
       "Rule poorly and you will be kicked out of office!\n")
 
+
 class Hamurabi(object):
     def play_game(self):
         print("Let's play!")
@@ -26,17 +27,23 @@ class Hamurabi(object):
               "- 1000 acres of land\n"
               "- Land value is 19 bushels/acre\n")
 
-        #Counter
+        # Counter
         peopleCount = 100
         bushels = 2800
         acresOfLand = 1000
-        landValue= 19
+        landValue = 19
+        year = 0
 
+        # EOY Counter
+        peopleDied = 0
+        totalbushel = 0
+        totalLand = 0
+        starving = 0
 
         gameOn = True
         while gameOn == True:
             while True:
-                print("Are you looking to buy land or sell?")
+                print("Are you looking to buy or sell land?")
                 print("(1) to buy, (2) to sell")
                 choice = int(input(">> "))
                 if choice == 1:
@@ -45,51 +52,62 @@ class Hamurabi(object):
                     print(f"(Price of acres is {landValue} bushels/ acre this year)")
                     try:
                         acresToBuy = int(input(">> "))
+                        if acresToBuy < 0:
+                            print("only positive numbers please\n")
+                            continue
                     except ValueError:
                         print("numbers only please\n")
-                        print("How many acres of land would you like to buy?")
-                        acresToBuy = int(input(">> "))
+                        continue
                     if acresToBuy < acresOfLand:
                         acresOfLand = acresOfLand + acresToBuy
-                        bushels = bushels - (acresToBuy*landValue)
+                        bushels = bushels - (acresToBuy * landValue)
                         print(f"you have {acresOfLand} acres of land and {bushels} bushels\n")
                         break
                     else:
-                        print("You don't have enough land")
+                        print("You don't have enough land\n")
                 elif choice == 2:
                     print("How many acres of land would you like to sell?")
                     print(f"(You have {acresOfLand} acres of land available)")
                     try:
                         acresToSell = int(input(">> "))
+                        if acresToSell < 0:
+                            print("only positive numbers please\n")
+                            continue
                     except ValueError:
-                        print("numbers only please")
-                        print("How many acres of land would you like to sell?")
-                        acresToSell = int(input(">> "))
+                        print("numbers only please\n")
                         continue
                     if acresToSell < acresOfLand:
                         acresOfLand = acresOfLand - acresToSell
-                        bushels = bushels + (acresToSell*landValue)
+                        bushels = bushels + (acresToSell * landValue)
                         print(f"you have {acresOfLand} acres of land now\n")
                         break
                     else:
-                        print("You don't have enough land")
+                        print("You don't have enough land\n")
                 else:
-                    print("That's not an option")
+                    print("That's not an option\n")
 
             while True:
-                print("How much grain would you like to feed your people?")
+                print("How much grains would you like to feed your people?")
                 print(f"(You have {bushels} bushels available)")
                 try:
                     toFeed = int(input(">> "))
+                    if toFeed < 0:
+                        print("only positive numbers please\n")
+                        continue
                 except ValueError:
-                    print("numbers only please")
+                    print("numbers only please\n")
                     continue
                 if toFeed < bushels:
+                    if (toFeed/peopleCount) < 20:
+                        peopleFed = math.ceil(toFeed/20)
+                        starving = peopleCount - peopleFed
+                        print(f"{starving} people went unfed\n")
+                    else:
+                        print("everyone was fed this year")
                     bushels = bushels - toFeed
                     print(f"(You have {bushels} left)\n")
-                    break
                 else:
-                    print("You don't have enough bushels for everyone")
+                    print("You don't have enough bushels for everyone\n")
 
             while True:
                 print("How many acres to plant with your available grains?")
@@ -98,27 +116,8 @@ class Hamurabi(object):
                 try:
                     choice = int(input(">> "))
                 except ValueError:
-                    print("numbers only please")
+                    print("numbers only please\n")
                     continue
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
