@@ -101,13 +101,14 @@ class Hamurabi(object):
                     if (toFeed/peopleCount) < 20:
                         peopleFed = math.ceil(toFeed/20)
                         starving = peopleCount - peopleFed
-                        print(f"{starving} people went unfed\n")
+                        print(f"{starving} people went unfed")
                     else:
                         print("everyone was fed this year")
                     bushels = bushels - toFeed
                     print(f"(You have {bushels} left)\n")
+                    break
                 else:
-                    print("You don't have enough bushels for everyone\n")
+                    print("You don't have enough bushels\n")
 
             while True:
                 print("How many acres to plant with your available grains?")
@@ -115,9 +116,14 @@ class Hamurabi(object):
                 print(f"(You have {acresOfLand} acres, {bushels} bushels, and {peopleCount} people)")
                 try:
                     choice = int(input(">> "))
+                    if choice < 0:
+                        print("only positive numbers please\n")
+                        continue
                 except ValueError:
                     print("numbers only please\n")
                     continue
+
+
 
 
 if __name__ == '__main__':
