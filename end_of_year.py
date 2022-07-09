@@ -54,13 +54,34 @@ def new_cost_of_land():
     return random.randint(17,23)
 
 
-def print_result(year, starved_people, immigrant_arrivals, population, harvest_bushels, bushels_per_acre, bushels_stored, rat_damage, acres_owned, land_value):
+def print_result(year, starved_people, immigrant_arrivals, population, harvest_bushels,
+                 bushels_per_acre, bushels_stored, rat_damage, acres_owned, land_value):
+    # figure out the strings to keep this code for the last year & just plug in the alternate strings?
+    # Would also be nice to be able to change time period / setting of the game.
+    # string_changes = (("You are in year", "This was year ten"),
+    #                   ("In the previous year", "Over the years"),
+    #                   ("The population is now", "Our great kingdom has grown from 100 proud citizens to"),
+    #                   ("Over your rule we harvested"
     print("O great Hammurabi!")
     print(f"You are in year {year} of your ten year rule")
     print(f"In the previous year {starved_people} starved to death.")
     print(f"In the previous year {immigrant_arrivals} entered the kingdom.")
-    print(f"The population is now {population}")
+    print(f"The population is now {population}.")
     print(f"We harvested {harvest_bushels} bushels at {bushels_per_acre}." )
     print(f"Rats destroyed{rat_damage} bushels, leaving {bushels_stored} bushels in storage.")
-    print(f"The city owns {acres_owned} acres of land")
+    print(f"The city owns {acres_owned} acres of land.")
     print(f"Land is currently worth {land_value} per acre.")
+
+
+def final_result(total_people_starved, acres, end_population):
+    # started w/ 10 acres per person
+    acres_per_person = acres / end_population
+    if total_people_starved < 20 and acres_per_person > 12:
+        print("O Hammurabi! Our kingdom has never flourished so!")
+    elif total_people_starved < 50 and acres_per_person > 11:
+        print("Hammurabi, your reign was as we expected. Our kingdom continues on.")
+    else:
+        print("Your reign has ended, may your next endeavors be more to your abilities.")
+    print("Your reign has ended.")
+
+
