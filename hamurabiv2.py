@@ -38,34 +38,38 @@ class Hamurabiv2(object):
                 print("Are you looking to buy or sell land?")
                 print(f"(You have {acresOfLand} acres of land available)")
                 print("(1) to buy, (2) to sell")
-                choice = int(input(">> "))
-                if choice == 1:
-                    acreBought = Hamurabiv2.askHowManyAcresToBuy()
-                    while True:
-                        if acreBought * landValue > bushels:
-                            print("O Hammurabi, I admire your enthusiasm, but we sadly don't have enough grain!")
-                            acreBought = Hamurabiv2.askHowManyAcresToSell()
-                        else:
-                            break
-                    acresOfLand += acreBought
-                    bushels -= (acreBought * landValue)
-                    print(f"you have {acresOfLand} acres of land and {bushels} bushels\n")
-                    break
-                elif choice == 2:
-                    acresToSell = Hamurabiv2.askHowManyAcresToSell()
-                    while True:
-                        if acresToSell > acresOfLand:
-                            print("O Hammurabi, you would sell our entire kingdom and some of our neighbor's?\n"
-                                "It would be impossible to sell more than we have.")
-                            acresToSell = Hamurabiv2.askHowManyAcresToSell()
-                        else:
-                            break
-                    acresOfLand -= acresToSell
-                    bushels += (acresToSell * landValue)
-                    print(f"you have {acresOfLand} acres of land now\n")
-                    break
-                else:
-                    print("That's not an option\n")
+                try:
+                    choice = int(input(">> "))
+                    if choice == 1:
+                        acreBought = Hamurabiv2.askHowManyAcresToBuy()
+                        while True:
+                            if acreBought * landValue > bushels:
+                                print("O Hammurabi, I admire your enthusiasm, but we sadly don't have enough grain!")
+                                acreBought = Hamurabiv2.askHowManyAcresToSell()
+                            else:
+                                break
+                        acresOfLand += acreBought
+                        bushels -= (acreBought * landValue)
+                        print(f"you have {acresOfLand} acres of land and {bushels} bushels\n")
+                        break
+                    elif choice == 2:
+                        acresToSell = Hamurabiv2.askHowManyAcresToSell()
+                        while True:
+                            if acresToSell > acresOfLand:
+                                print("O Hammurabi, you would sell our entire kingdom and some of our neighbor's?\n"
+                                    "It would be impossible to sell more than we have.")
+                                acresToSell = Hamurabiv2.askHowManyAcresToSell()
+                            else:
+                                break
+                        acresOfLand -= acresToSell
+                        bushels += (acresToSell * landValue)
+                        print(f"you have {acresOfLand} acres of land now\n")
+                        break
+                    else:
+                        print("That's not an option\n")
+                except ValueError:
+                    print("numbers only please\n")
+
             while True:
                 print(f"(You have {bushels} bushels available)")
                 bushels_fed = Hamurabiv2.askHowMuchGrainToFeedPeople()
