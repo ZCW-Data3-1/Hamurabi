@@ -175,24 +175,24 @@ class Hamurabiv2(object):
             print("numbers only please\n")
             Hamurabiv2.askHowMuchGrainToFeedPeople()
 
-    def askHowManyAcresToPlant(current_population, acres_owned, grain_selected):
+    def askHowManyAcresToPlant(current_population, acres_owned, bushels_owned):
         max_acres_per_manpower = current_population * 10
-        max_acres_with_provided_grain = grain_selected / 2
+        max_acres_with_owned_grain = bushels_owned / 2
         print("How many acres to plant with your available grains?")
         print("(You must have enough acres, enough grain, and enough people to do the planting)")
         try:
             acres = int(input(">> "))
             if acres < 0:
-                print("only positive numbers please\n")
-                Hamurabiv2.askHowManyAcresToPlant()
+                print("Only positive numbers please\n Our harvest will come in time!\n")
+                Hamurabiv2.askHowManyAcresToPlant(current_population, acres_owned, bushels_owned)
             elif acres > max_acres_per_manpower:
                 print("Wise Hammurabi, surely our kingdom will have the manpower"
                       "for that in time, but we currently do not!")
-                Hamurabiv2.askHowManyAcresToPlant(current_population, acres_owned, grain_selected)
-            elif acres > max_acres_with_provided_grain:
+                Hamurabiv2.askHowManyAcresToPlant(current_population, acres_owned, bushels_owned)
+            elif acres > max_acres_with_owned_grain:
                 print("O Hammurabi, were you to provide more grain we would happily "
                       "oblige!")
-                Hamurabiv2.askHowManyAcresToPlant(current_population, acres_owned, grain_selected)
+                Hamurabiv2.askHowManyAcresToPlant(current_population, acres_owned, bushels_owned)
             return int(acres)
         except ValueError:
             print("numbers only please\n")
