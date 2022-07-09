@@ -100,7 +100,12 @@ class Hamurabi(object):
                 except ValueError:
                     print("numbers only please")
                     continue
-
+                if choice > bushels//2:
+                    print("You don't have enough grain")
+                    continue
+                elif choice > peopleCount * 10:
+                    print("Your population isn't large enough to harvest that many acres")
+                    continue
 
 
 

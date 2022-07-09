@@ -32,10 +32,12 @@ def immigrants(population, acres_owned, grain_in_storage):
     return immigrant_total
 
 
-def harvest(acres, bushels_used_as_seed):
-    acres_planted = bushels_used_as_seed // 2
+def harvest(acres, bushels_used_as_seed): #double check bbbyyyy
     crop_yield = random.randint(1, 6)
-    return acres_planted * crop_yield
+    # plantable_acres = bushels // 2
+    # max_acres_harvestable = population * 10 // bushels_used_as_seed
+    plantable_acres = bushels_used_as_seed
+    return acres * crop_yield
 
 
 def grain_eaten_by_rats(bushels):
