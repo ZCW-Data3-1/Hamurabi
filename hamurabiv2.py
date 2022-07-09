@@ -67,9 +67,9 @@ class Hamurabiv2(object):
                 else:
                     print("That's not an option\n")
             while True:
-                print(f"(You have {bushels} bushels available)")
+                print(f"(You have {bushels} bushels available. Our population is {population}.)")
                 bushels_fed = Hamurabiv2.askHowMuchGrainToFeedPeople()
-                if bushels_fed < bushels:
+                if bushels_fed <= bushels:
                     bushels -= bushels_fed
                     print(f"(You have {bushels} left)\n")
                     break
@@ -77,7 +77,7 @@ class Hamurabiv2(object):
                     print("You don't have enough bushels\n")
             while True:
                 print(f"(You have {acresOfLand} acres, {bushels} bushels, and {population} people)")
-                acres_planted = Hamurabiv2.askHowManyAcresToPlant()
+                acres_planted = Hamurabiv2.askHowManyAcresToPlant(population, acresOfLand, bushels)
                 print(f"planting {acres_planted} acres")
                 bushels -= (acres_planted * 2)  # this may be where we're getting a negative number.
                 print(f"You have {bushels} left after planting")
@@ -90,7 +90,7 @@ class Hamurabiv2(object):
             peopleDied += starved_folk
             if starved_folk > 0 and Hamurabiv2.uprising_flag(population, starved_folk):
                 gameON = False
-                print("Too many of your people have gone hungry, Hammurabi.\n"
+                print("\nToo many of your people have gone hungry, Hammurabi!\n"
                       "You are no longer ruler.")
                 break
             if starved_folk == 0:
@@ -98,7 +98,8 @@ class Hamurabiv2(object):
             harvest_and_yield = Hamurabiv2.harvest(acres_planted)
             harvested_bushels = harvest_and_yield[0]
             cropyield = harvest_and_yield[1]
-            rat_damage = Hamurabiv2.grain_eaten_by_rats(bushels)
+            if bushels > 0:
+                rat_damage = Hamurabiv2.grain_eaten_by_rats(bushels)
             landValue = Hamurabiv2.new_cost_of_land()
 
             # Updating Player Stats with EOY results
@@ -106,6 +107,8 @@ class Hamurabiv2(object):
             population += immigrant
             bushels -= rat_damage
             bushels += harvest_and_yield[0]
+            rat_damage = 0
+            immigrant = 0
 
             # EOY Result Screen / EOG Grade
             Hamurabiv2.print_result(year, starved_folk, immigrant, population, harvested_bushels,
@@ -114,6 +117,7 @@ class Hamurabiv2(object):
             if year == 10:
                 Hamurabiv2.final_result(total_people_starved, acresOfLand, population)
                 gameON = False
+
         # print(Hamurabiv2.plague_chance(population))
         # print(Hamurabiv2.starvation_deaths(population, bushels))
         # print(Hamurabiv2.uprising_flag(population, starved_folk))
@@ -171,7 +175,9 @@ class Hamurabiv2(object):
             print("numbers only please\n")
             Hamurabiv2.askHowMuchGrainToFeedPeople()
 
-    def askHowManyAcresToPlant():
+    def askHowManyAcresToPlant(current_population, acres_owned, grain_selected):
+        max_acres_per_manpower = current_population * 10
+        max_acres_with_provided_grain = grain_selected / 2
         print("How many acres to plant with your available grains?")
         print("(You must have enough acres, enough grain, and enough people to do the planting)")
         try:
@@ -179,6 +185,14 @@ class Hamurabiv2(object):
             if acres < 0:
                 print("only positive numbers please\n")
                 Hamurabiv2.askHowManyAcresToPlant()
+            elif acres > max_acres_per_manpower:
+                print("Wise Hammurabi, surely our kingdom will have the manpower"
+                      "for that in time, but we currently do not!")
+                Hamurabiv2.askHowManyAcresToPlant(current_population, acres_owned, grain_selected)
+            elif acres > max_acres_with_provided_grain:
+                print("O Hammurabi, were you to provide more grain we would happily "
+                      "oblige!")
+                Hamurabiv2.askHowManyAcresToPlant(current_population, acres_owned, grain_selected)
             return int(acres)
         except ValueError:
             print("numbers only please\n")
