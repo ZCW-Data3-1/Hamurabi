@@ -236,7 +236,8 @@ class Hamurabiv2(object):
         print("O great Hammurabi!")
         print(f"These are the results of year {year} of your ten year rule")
         print(f"In the previous year {starved_people} starved to death.")
-        print(f"In the previous year {immigrant_arrivals} new citizen immigrated to the kingdom.")
+        if starved_people == 0:
+            print(f"In the previous year {immigrant_arrivals} immigrant(s) added to our population.")
         print(f"The population is now {population}.")
         print(f"We harvested {harvest_bushels} bushels at {bushels_per_acre} bushels per acre.")
         print(f"Rats destroyed {rat_damage} bushels, leaving {bushels_stored} bushels in storage.")
