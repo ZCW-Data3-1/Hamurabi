@@ -36,8 +36,9 @@ def harvest(acres, bushels_used_as_seed): #double check bbbyyyy
     crop_yield = random.randint(1, 6)
     # plantable_acres = bushels // 2
     # max_acres_harvestable = population * 10 // bushels_used_as_seed
-    plantable_acres = bushels_used_as_seed
-    return acres * crop_yield
+    # plantable_acres = bushels_used_as_seed
+    result = [acres * crop_yield, crop_yield]
+    return result
 
 
 def grain_eaten_by_rats(bushels):
@@ -51,3 +52,15 @@ def grain_eaten_by_rats(bushels):
 
 def new_cost_of_land():
     return random.randint(17,23)
+
+
+def print_result(year, starved_people, immigrant_arrivals, population, harvest_bushels, bushels_per_acre, bushels_stored, rat_damage, acres_owned, land_value):
+    print("O great Hammurabi!")
+    print(f"You are in year {year} of your ten year rule")
+    print(f"In the previous year {starved_people} starved to death.")
+    print(f"In the previous year {immigrant_arrivals} entered the kingdom.")
+    print(f"The population is now {population}")
+    print(f"We harvested {harvest_bushels} bushels at {bushels_per_acre}." )
+    print(f"Rats destroyed{rat_damage} bushels, leaving {bushels_stored} bushels in storage.")
+    print(f"The city owns {acres_owned} acres of land")
+    print(f"Land is currently worth {land_value} per acre.")

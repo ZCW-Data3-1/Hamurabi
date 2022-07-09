@@ -7,7 +7,7 @@ import random
 
 print("Congratulations, you are the newest ruler of ancient Sumer, elected for a ten year term of office.\n"
       "Your duties are to dispense food, direct farming, and buy and sell land as needed to support your people.\n"
-      "Watch out for rat infestiations and the plague! Grain is the general currency, measured in bushels.\n\n"
+      "Watch out for rat infestations and the plague! Grain is the general currency, measured in bushels.\n\n"
       "The following will help you in your decisions:\n"
       "- Each person needs at least 20 bushels of grain per year to survive\n"
       "- Each person can farm at most 10 acres of land\n"
