@@ -1,18 +1,20 @@
 import math
 import random
+
+
 class Hamurabiv2(object):
     def play_game(self):
         Hamurabiv2.summary()
         print("Let's play!")
 
-        #Player Stats
+        # Player Stats
         population = 100
         bushels = 2800
         acresOfLand = 1000
-        landValue = 19 #bushels per acres
+        landValue = 19  # bushels per acres
         year = 0
 
-        #Player Decisions
+        # Player Decisions
         acres_planted = 0
         bushels_fed = 0
 
@@ -24,14 +26,14 @@ class Hamurabiv2(object):
         immigrant = 0
         cropyield = 0
         rat_damage = 0
-        bushels_in_storage = 0  #bushels_in_storage should equal player bushels. may be redundant
+        bushels_in_storage = 0  # bushels_in_storage should equal player bushels. may be redundant
 
-        #EOG Counter
+        # EOG Counter
         starved_folk_total = 0
 
         gameON = True
         while gameON == True:
-            year+= 1
+            year += 1
             while True:
                 print("Are you looking to buy or sell land?")
                 print(f"(You have {acresOfLand} acres of land available)")
@@ -45,6 +47,13 @@ class Hamurabiv2(object):
                     break
                 elif choice == 2:
                     acresToSell = Hamurabiv2.askHowManyAcresToSell()
+                    while True:
+                        if acresToSell > acresOfLand:
+                            print("O Hammurabi, you would sell our entire kingdom and some of our neighbor's?\n"
+                                "It would be impossible to sell more than we have.")
+                            acresToSell = Hamurabiv2.askHowManyAcresToSell()
+                        else:
+                            break
                     acresOfLand -= acresToSell
                     bushels += (acresToSell * landValue)
                     print(f"you have {acresOfLand} acres of land now\n")
@@ -65,33 +74,33 @@ class Hamurabiv2(object):
                 print(f"(You have {acresOfLand} acres, {bushels} bushels, and {population} people)")
                 acres_planted = Hamurabiv2.askHowManyAcresToPlant()
                 print(f"planting {acres_planted} acres")
-                bushels -= (acres_planted*2)  #this may be where we're getting a negative number.
+                bushels -= (acres_planted * 2)  # this may be where we're getting a negative number.
                 print(f"You have {bushels} left after planting")
                 break
 
-        #Tallying EOY results
-        peopleDied = plague_chance(population)
-        starved_folk = starvation_deaths(population, bushels_fed)
-        starved_folk_total += starved_folk
-        peopleDied += starved_folk
-        if starved_folk > 0 and Hamurabiv2.uprising_flag(population, starved_folk):
-            gameON = false
-            print("Too many of your people have gone hungry, Hammurabi.\n"
-                  "You are no longer ruler.")
-        immigrant = Hamurabiv2.immigrants(population, acresOfLand, bushels_in_storage)
-        harvest_and_yield = []
-        harvest_and_yield = harvest(acres_planted)
-        bushels += harvest_and_yield[0]
-        harvested_bushels = harvest_and_yield[0]
-        cropyield = harvest_and_yield[1]
-        rat_damage = grain_eaten_by_rats(bushels)
-        landValue = new_cost_of_land()
+            # Tallying EOY results
+            peopleDied = plague_chance(population)
+            starved_folk = starvation_deaths(population, bushels_fed)
+            starved_folk_total += starved_folk
+            peopleDied += starved_folk
+            if starved_folk > 0 and Hamurabiv2.uprising_flag(population, starved_folk):
+                gameON = false
+                print("Too many of your people have gone hungry, Hammurabi.\n"
+                      "You are no longer ruler.")
+            immigrant = Hamurabiv2.immigrants(population, acresOfLand, bushels_in_storage)
+            harvest_and_yield = harvest(acres_planted)
+            harvested_bushels = harvest_and_yield[0]
+            cropyield = harvest_and_yield[1]
+            rat_damage = grain_eaten_by_rats(bushels)
+            landValue = new_cost_of_land()
 
-        #Updating Player Stats with EOY results
-        population -= peopleDied
-        bushels -= rat_damage
+            # Updating Player Stats with EOY results
+            population -= peopleDied
+            population += immigrant
+            bushels -= rat_damage
+            bushels += harvest_and_yield[0]
 
-        #EOY Result Screen / EOG Grade
+        # EOY Result Screen / EOG Grade
         print_result(year, starved_folk, immigrant, population, harvested_bushels,
                      cropyield, bushels, rat_damage, acresOfLand, landValue)
 
@@ -104,16 +113,6 @@ class Hamurabiv2(object):
         print(Hamurabiv2.immigrants(population, acresOfLand, bushels_in_storage))
         print(Hamurabiv2.grain_eaten_by_rats(bushels))
         print(Hamurabiv2.new_cost_of_land())
-
-
-
-
-
-
-
-
-
-
 
     def summary():
         print("Congratulations, you are the newest ruler of ancient Sumer, elected for a ten year term of office.\n"
@@ -128,13 +127,16 @@ class Hamurabiv2(object):
               "Rule wisely and you will be showered with appreciation at the end of your term.\n"
               "Rule poorly and you will be kicked out of office!\n")
 
-    def askHowManyAcresToBuy():
+    def askHowManyAcresToBuy():  # needs a check against bushels, could push us negative
         print("How many acres of land would you like to buy?")
         try:
             acresToBuy = int(input(">> "))
             if acresToBuy < 0:
                 print("only positive numbers please\n")
                 Hamurabiv2.askHowManyAcresToBuy()
+            elif acresToBuy * landValue > bushels:
+                print("O Hammurabi, I admire your enthusiasm, but we sadly don't have enough grain!")
+                Hamurabiv2.askHowManyAcresToSell()
         except ValueError:
             print("numbers only please\n")
             Hamurabiv2.askHowManyAcresToBuy()
@@ -187,7 +189,7 @@ class Hamurabiv2(object):
             return plague_deaths
 
     def starvation_deaths(population, bushels):
-        peopleFed = math.floor(bushels/20)
+        peopleFed = math.floor(bushels / 20)
         starved_folk = population - peopleFed
         if starved_folk < 0:
             return 0
@@ -195,8 +197,7 @@ class Hamurabiv2(object):
             return starved_folk
 
     def uprising_flag(population, starved_folk):
-        return float(starved_folk/population) > 0.45
-
+        return float(starved_folk / population) > 0.45
 
     def immigrants(population, acresOfLand, bushels_in_storage):
         immigrant_total = int((20 * acresOfLand + bushels_in_storage) / (100 * population))
@@ -219,6 +220,7 @@ class Hamurabiv2(object):
         landValue = random.randint(17, 23)
         return landValue
 
+
 def print_result(year, starved_people, immigrant_arrivals, population, harvest_bushels,
                  bushels_per_acre, bushels_stored, rat_damage, acres_owned, land_value):
     # figure out the strings to keep this code for the last year & just plug in the alternate strings?
@@ -232,7 +234,7 @@ def print_result(year, starved_people, immigrant_arrivals, population, harvest_b
     print(f"In the previous year {starved_people} starved to death.")
     print(f"In the previous year {immigrant_arrivals} entered the kingdom.")
     print(f"The population is now {population}.")
-    print(f"We harvested {harvest_bushels} bushels at {bushels_per_acre}." )
+    print(f"We harvested {harvest_bushels} bushels at {bushels_per_acre}.")
     print(f"Rats destroyed{rat_damage} bushels, leaving {bushels_stored} bushels in storage.")
     print(f"The city owns {acres_owned} acres of land.")
     print(f"Land is currently worth {land_value} per acre.")
@@ -248,7 +250,6 @@ def final_result(total_people_starved, acres, end_population):
     else:
         print("Your reign has ended, may your next endeavors be more to your abilities.")
     print("Your reign has ended.")
-
 
 
 if __name__ == '__main__':
