@@ -84,7 +84,7 @@ class Hamurabiv2(object):
                 acres_planted = Hamurabiv2.askHowManyAcresToPlant(population, acresOfLand, bushels)
                 print(f"planting {acres_planted} acres")
                 bushels -= (acres_planted * 2)  # this may be where we're getting a negative number.
-                print(f"You have {bushels} left after planting")
+                print(f"You have {bushels} left after planting.\n")
                 break
 
             # Tallying EOY results
@@ -174,50 +174,26 @@ class Hamurabiv2(object):
     def askHowManyAcresToPlant(current_population, acres_owned, bushels_owned):
         max_acres_per_manpower = current_population * 10
         max_acres_with_owned_grain = bushels_owned / 2
-        print("How many acres to plant with your available grains?")
-        print("(You must have enough acres, enough grain, and enough people to do the planting)")
-        try:
-            acres = int(input(">> "))
-            if acres < 0:
-                print("Only positive numbers please\n Our harvest will come in time!\n")
-                Hamurabiv2.askHowManyAcresToPlant(current_population, acres_owned, bushels_owned)
-            elif acres > max_acres_per_manpower:
-                print("Wise Hammurabi, surely our kingdom will have the manpower"
+        while True:
+            print("How many acres to plant with your available grains?")
+            print("(You must have enough acres, enough grain, and enough people to do the planting)")
+            try:
+                acres = input(">> ")
+                if int(acres) < 0:
+                    print("Only positive numbers please\n Our harvest will come in time!\n")
+                    continue
+                elif int(acres) > max_acres_per_manpower:
+                    print("Wise Hammurabi, surely our kingdom will have the manpower"
                       "for that in time, but we currently do not!")
-                Hamurabiv2.askHowManyAcresToPlant(current_population, acres_owned, bushels_owned)
-            elif acres > max_acres_with_owned_grain:
-                print("O Hammurabi, were you to provide more grain we would happily "
+                    continue
+                elif int(acres) > max_acres_with_owned_grain:
+                    print("O Hammurabi, were you to provide more grain we would happily "
                       "oblige!")
-                Hamurabiv2.askHowManyAcresToPlant(current_population, acres_owned, bushels_owned)
-            return int(acres)
-        except ValueError:
-            print("numbers only please\n")
-            Hamurabiv2.askHowManyAcresToPlant()
-
-
-    def askHowManyAcresToPlant(current_population, acres_owned, bushels_owned):
-        max_acres_per_manpower = current_population * 10
-        max_acres_with_owned_grain = bushels_owned / 2
-        print("How many acres to plant with your available grains?")
-        print("(You must have enough acres, enough grain, and enough people to do the planting)")
-        try:
-            acres = int(input(">> "))
-            if acres < 0:
-                print("Only positive numbers please\n Our harvest will come in time!\n")
-                Hamurabiv2.askHowManyAcresToPlant(current_population, acres_owned, bushels_owned)
-            elif acres > max_acres_per_manpower:
-                print("Wise Hammurabi, surely our kingdom will have the manpower"
-                      "for that in time, but we currently do not!")
-                Hamurabiv2.askHowManyAcresToPlant(current_population, acres_owned, bushels_owned)
-            elif acres > max_acres_with_owned_grain:
-                print("O Hammurabi, were you to provide more grain we would happily "
-                      "oblige!")
-                Hamurabiv2.askHowManyAcresToPlant(current_population, acres_owned, bushels_owned)
-            return int(acres)
-        except ValueError:
-            print("numbers only please\n")
-            Hamurabiv2.askHowManyAcresToPlant(curren_population, acres_owned, bushels_owned)
-
+                    continue
+                return int(acres)
+            except ValueError:
+                print("numbers only please\n")
+                continue
 
     def plague_chance(population):
         chance = random.randint(1, 100)
