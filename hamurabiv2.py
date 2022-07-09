@@ -166,17 +166,17 @@ class Hamurabiv2(object):
                 print("numbers only please\n")
 
     def askHowManyAcresToPlant():
-        print("How many acres to plant with your available grains?")
-        print("(You must have enough acres, enough grain, and enough people to do the planting)")
-        try:
-            acres = int(input(">> "))
-            if acres < 0:
-                print("only positive numbers please\n")
-                Hamurabiv2.askHowManyAcresToPlant()
-            return int(acres)
-        except ValueError:
-            print("numbers only please\n")
-            Hamurabiv2.askHowManyAcresToPlant()
+        while True:
+            print("How many acres to plant with your available grains?")
+            print("(You must have enough acres, enough grain, and enough people to do the planting)")
+            try:
+                acres = int(input(">> "))
+                if acres < 0:
+                    print("only positive numbers please\n")
+                    Hamurabiv2.askHowManyAcresToPlant()
+                return int(acres)
+            except ValueError:
+                print("numbers only please\n")
 
     def plague_chance(population):
         chance = random.randint(1, 100)
