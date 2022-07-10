@@ -121,6 +121,9 @@ class Hamurabiv2(object):
             if year == 10:
                 Hamurabiv2.final_result(starved_folk_total, acresOfLand, population)
                 gameON = False
+        Hamurabiv2.play_again()
+
+
 
     def introduction():
         print("Congratulations, you are the newest ruler of ancient Sumer, elected for a ten year term of office.\n"
@@ -270,7 +273,13 @@ class Hamurabiv2(object):
         else:
             print("Your reign has ended, may your next endeavors be more to your abilities.")
 
-
+    def play_again():
+        print("Would you like to play again? Enter Y or N")
+        response = input(">> ")
+        if response == 'Y' or 'y':
+            Hamurabiv2().play_game()
+        else:
+            print("Thanks for playing!")
 
 if __name__ == '__main__':
     Hamurabiv2().play_game()
