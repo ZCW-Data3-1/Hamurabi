@@ -119,7 +119,7 @@ class Hamurabiv2(object):
                      cropyield, bushels, rat_damage, acresOfLand, landValue)
 
             if year == 10:
-                Hamurabiv2.final_result(total_people_starved, acresOfLand, population)
+                Hamurabiv2.final_result(starved_folk_total, acresOfLand, population)
                 gameON = False
 
     def introduction():
@@ -199,18 +199,19 @@ class Hamurabiv2(object):
         chance = random.randint(1, 100)
         plague_deaths = 0
         if chance <= 15:
-            plague_deaths = population / 2
+            plague_deaths = population // 2
+            print("O Hammurabi! A horrible plague has killed so many citizens!")
             return plague_deaths
         else:
             return plague_deaths
 
     def starvation_deaths(population, bushels):
-        peopleFed = math.floor(bushels / 20)
+        peopleFed = bushels // 20
         starved_folk = population - peopleFed
-        if starved_folk < 0:
+        if starved_folk <= 0:
             return 0
         else:
-            return starved_folk
+            return int(starved_folk)
 
     def uprising_flag(population, starved_folk):
         return float(starved_folk / population) > 0.45
@@ -220,10 +221,12 @@ class Hamurabiv2(object):
         return immigrant_total
 
     def grain_eaten_by_rats(stored_bushels):
+        if stored_bushels == 0:
+            return 0
         chance = random.randint(1, 100)
         if chance < 40:
             percent_eaten = random.randint(10, 30)
-            return stored_bushels // (percent_eaten // 100)
+            return int(stored_bushels * (percent_eaten // 100))
         else:
             return 0
 
@@ -259,13 +262,14 @@ class Hamurabiv2(object):
     def final_result(total_people_starved, acres, end_population):
         # started w/ 10 acres per person
         acres_per_person = acres / end_population
-        if total_people_starved < 20 and acres_per_person > 12:
-            print("O Hammurabi! Our kingdom has never flourished so!")
-        elif total_people_starved < 50 and acres_per_person > 11:
+        if total_people_starved < 30 and acres_per_person >= 12:
+            print("O Hammurabi! Our kingdom has never flourished so!"
+                  "The people clamor for your continued rule!")
+        elif total_people_starved < 50 and acres_per_person >= 11:
             print("Hammurabi, your reign was as we expected. Our kingdom continues on.")
         else:
             print("Your reign has ended, may your next endeavors be more to your abilities.")
-        print("Your reign has ended.")
+
 
 
 if __name__ == '__main__':
